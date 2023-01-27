@@ -234,6 +234,31 @@ api.put('/perfil/:id', (req, res) => {
 
     }
 })
+api.post('/perfil/conexao', (req, res) => {
+  let info = req.body
+
+  if(info.remetente && info.destinatario){
+    let remetenteID=info.remetente;
+    let destinatarioID= info.destinatario
+    let remetente =perfis.find((perfil)=>perfil.id==remetenteID)
+    let destinatario=perfis.find((perfil)=>perfil.id==destinatarioID)
+      if(remetente && destinatario){
+        remetente.conexoes.push(destinatarioID)
+        destinatario.conexoes.push(remetenteID)
+        res.json({
+          message:"Conexão estabelecida com sucesso"
+        })
+      }else{
+        res.json({
+          message:"Erro ao definir conexão: Perfil não encontrado"
+        })
+      }
+  }else{
+    res.status(400).json({
+      message:"Erro ao conectar perfis: Dados incompletos"
+    })
+  }
+})
 
 api.listen(port, () => {
   console.log(`Perfil Profissional API rodando na porta ${port}...`)
