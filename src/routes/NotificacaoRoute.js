@@ -4,7 +4,7 @@ const notificacaoService = require('./../services/NotificacaoService')
 
 
 
-// Rotas de Perfil
+// Rotas de Notificação
 router.get ('/:id', notificacaoService.buscarPorId)
 router.get('/perfil/:id',notificacaoService.buscarPorPerfilId)
 router.post('', notificacaoService.cadastrar)

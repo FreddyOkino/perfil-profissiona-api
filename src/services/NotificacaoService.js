@@ -1,3 +1,4 @@
+const perfilService= require('./../services/perfilService')
 let geradorID = 4 
 let notificacoes = [
     {
@@ -42,58 +43,48 @@ module.exports = {
     },
     
     buscarPorPerfilId: (req, res) => {
-      let perfilID = req.params.id
-    
+      
+      let perfilID= req.params.id
+      
       let notificaoEncontrado = notificacoes.filter((notificacao) => notificacao.remetente == perfilID || notificacao.destinatario == perfilID )
+      
       if(notificaoEncontrado) res.json(notificaoEncontrado)
-      else res.status(400).json({
-        message: "Erro ao buscar perfil: notificação não encontrada"
-      })
+    
+      
     },
     
     cadastrar: (req, res) => {
-      let novoPerfil = req.body
+      let novaNotificacao = req.body
+      
+      if(novaNotificacao){
     
-      console.log(novoPerfil)
-      if(novoPerfil){
-    
-        novoPerfil.id = geradorID
-        perfis.push(novoPerfil)
+        novaNotificacao.id = geradorID
+        notificacoes.push(novaNotificacao)
         geradorID++
     
-        res.json(novoPerfil)
+        res.json(novaNotificacao)
       }else{
         res.status(400).json({
-          message:"Erro ao cadastra um novo perfil: Dados incompletos"
+          message:"Erro ao cadastra um nova notificação: Dados incompletos"
         })
       }
     },
+
     marcarlida: (req, res) => {
-      let perfilID=req.params.id
-      let perfilEditado = req.body
-    
-      if(perfilEditado){
-       
-        let perfilIndex = perfis.findIndex((perfil)=>perfil.id==perfilID)
-        
-        if (perfilIndex!== -1){
-          
-          let perfilRetorno = perfis[perfilIndex];
-          perfilEditado.id = perfilID
-          perfis.splice(perfilIndex,1,perfilEditado)
-          res.json(perfilEditado)
-    
+      let notificacaoID = req.params.id
+         
+      let notificacaoEncontrada = notificacoes.find((notificacao)=>notificacao.id==notificacaoID)
+        if(notificacaoEncontrada){
+          notificacaoEncontrada.lida=true
+          res.json({
+            message:"mensagem marcada como lida"
+          })
         }else{
           res.json({
-            message:"Perfil não encontrado"
+            message:"Erros ao marcar notificação como lida"
           })
         }
-        }else{
-          res.status(400).json({
-            message:"Erro ao editar perfil: Dados incompletos"
-          })
-    
-        }
+        
     },
     
     
