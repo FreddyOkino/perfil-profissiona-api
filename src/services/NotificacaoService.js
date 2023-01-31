@@ -1,4 +1,4 @@
-const perfilService= require('./../services/perfilService')
+
 let geradorID = 4 
 let notificacoes = [
     {
@@ -30,30 +30,32 @@ let notificacoes = [
     }
 ]
 module.exports = {
-    buscarPorId:(req, res) => {
-      let notificacaoId = req.params.id;
-      let notificacaoEncontrada = notificacoes.find((notificacao)=>notificacao.id==notificacaoId)
-      if(notificacaoEncontrada){
-        res.json(notificacaoEncontrada)
-      }else{
-        res.json({
-            message:"Erro ao buscar notificação : Objeto não econtrado"
-        })
-      }
+buscarPorId:(req, res) => {
+  let notificacaoId = req.params.id;
+  let notificacaoEncontrada = notificacoes.find((notificacao)=>notificacao.id==notificacaoId)
+  if(notificacaoEncontrada){
+    res.json(notificacaoEncontrada)
+  }else{
+    res.json({
+    message:"Erro ao buscar notificação : Objeto não econtrado"
+    })
+  }
+},
+    
+buscarPorPerfilId: (req, res) => {
+  let perfilID= req.params.id
+  let notificaoEncontrado = notificacoes.filter((notificacao) => notificacao.remetente == perfilID || notificacao.destinatario == perfilID )
+    if(notificaoEncontrado) res.json(notificaoEncontrado)
+    else{
+      res.json({
+      message :'Erro ao buscar notificação: Objeto nã encontrado'
+    })
+    }
+    
+      
     },
     
-    buscarPorPerfilId: (req, res) => {
-      
-      let perfilID= req.params.id
-      
-      let notificaoEncontrado = notificacoes.filter((notificacao) => notificacao.remetente == perfilID || notificacao.destinatario == perfilID )
-      
-      if(notificaoEncontrado) res.json(notificaoEncontrado)
-    
-      
-    },
-    
-    cadastrar: (req, res) => {
+cadastrar: (req, res) => {
       let novaNotificacao = req.body
       
       if(novaNotificacao){
@@ -70,7 +72,7 @@ module.exports = {
       }
     },
 
-    marcarlida: (req, res) => {
+marcarlida: (req, res) => {
       let notificacaoID = req.params.id
          
       let notificacaoEncontrada = notificacoes.find((notificacao)=>notificacao.id==notificacaoID)

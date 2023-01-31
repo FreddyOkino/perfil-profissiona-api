@@ -1,12 +1,18 @@
 const express = require("express")
 const perfilRoute=require("./routes/PerfilRoute")
 const notificacaoRoute=require("./routes/NotificacaoRoute")
+const loginRoute = require('./routes/LoginRoute')
+
+
 
 const api = express()
 
 api.use(express.json())
 api.use('/perfil', perfilRoute)
 api.use('/notificacao', notificacaoRoute)
+api.use('/login', loginRoute)
+
+
 
 
 // Rota Raiz
