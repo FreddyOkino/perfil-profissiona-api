@@ -37,29 +37,23 @@ module.exports={
       throw{message:error.message,status:500}
      }
   },
- // conectar: (req, res) => {
-  //  let info = req.body
-  
-    //if(info.remetente && info.destinatario){
-     // let remetenteID=info.remetente;
-      //let destinatarioID= info.destinatario
-      //let remetente =dado.perfis.find((perfil)=>perfil.id==remetenteID)
-      //let destinatario=dado.perfis.find((perfil)=>perfil.id==destinatarioID)
-       // if(remetente && destinatario){
-         // remetente.conexoes.push(destinatarioID)
-         // destinatario.conexoes.push(remetenteID)
-         // res.json({
-         //   message:"Conexão estabelecida com sucesso"
-        //  })
-       // }else{
-        //  res.json({
-        //    message:"Erro ao definir conexão: Perfil não encontrado"
-        //  })
-       // }
-   // }else{
-    //  res.status(400).json({
-     //   message:"Erro ao conectar perfis: Dados incompletos"
-    //  })
-    //}
-  ///}
+  conectar: async(info) => {
+  try{
+    let remetente = await perfilModel.findOne({_id : info.remetente})
+    let destinatario = await perfilModel.findOne({_id : info.destinatario})
+    if(!remetente || !destinatario){
+      throw {message: "Perfil não encontrado", status:404}
+    }else{
+      remetente.conexoes.push(destinatario)
+      destinatario.conexoes.push(remetente)
+
+      await perfilModel.updateOne({_id : remetente._id}, remetente)
+      await perfilModel.updateOne({_id : destinatario._id},destinatario)
+
+    }
+    return {message:"Conexão estabelecida com sucesso",status:200}
+  }catch(error){
+    throw{message:error.message,status:500}
+  }
+  }
 }

@@ -25,6 +25,9 @@ router.put('/:id',verificar, async(req,res)=>{
     const resposta = await perfilService.editar(req.params.id,req.body)
     res.json(resposta)
 } )
-//router.post('/conexao', verificar, perfilService.conectar)
+router.post('/conexao', verificar, async(req,res)=>{
+    const resposta = await perfilService.conectar(req.body)
+    res.json(resposta)
+})
 
 module.exports = router
