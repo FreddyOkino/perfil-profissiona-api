@@ -3,18 +3,21 @@ const perfilModel = require('./../models/Perfil')
 module.exports={
    
   
- // buscarUltimos:(req, res) => {
-  //  res.json(dado.perfis.length>5 ? dado.perfis.slice(dado.perfis.length - 5) : dado.perfis)
- // },
- // buscarPorId: (req, res) => {
-   // let perfilID = req.params.id
-  
-  //  let perfilEncontrado = dado.perfis.find((perfil) => perfil.id == perfilID)
-  //  if(perfilEncontrado) res.json(perfilEncontrado)
-  //  else res.status(400).json({
-  //    message: "Erro ao buscar perfil: perfil não encontrado"
-  //  })
-  //},
+  buscarUltimos:async() => {
+    try{
+      return await perfilModel.find().sort({_id:-1}).limit(5)
+    }catch(error){
+      throw{message:error.message, status:500}
+    }
+  },
+
+ buscarPorId: async(id) => {
+   try {
+   return await perfilModel.findOne({_id: id})
+   }catch (error){
+    throw {message: error.message, status:500}
+   }
+  },
   cadastrar: async (perfil) => {
     try{
       let novoPerfil= await perfilModel.create(perfil)
@@ -26,33 +29,14 @@ module.exports={
     }
 
   },
-//  editar: (req, res) => {
-  //  let perfilID=req.params.id
-   // let perfilEditado = req.body
   
-  //  if(perfilEditado){
-     
-    //  let perfilIndex = dado.perfis.findIndex((perfil)=>perfil.id==perfilID)
-      
-    //  if (perfilIndex!== -1){
-        
-    //    let perfilRetorno = dado.perfis[perfilIndex];
-    //    perfilEditado.id = perfilID
-    //    dado.perfis.splice(perfilIndex,1,perfilEditado)
-    //    res.json(perfilEditado)
-  
-     // }else{
-     //   res.json({
-      //    message:"Perfil não encontrado"
-      //  })
-      //}
-     // }else{
-      //  res.status(400).json({
-       //   message:"Erro ao editar perfil: Dados incompletos"
-       // })
-  
-     // }
- // },
+  editar: async(id, perfil) => {
+     try{
+      return await perfilModel.updateOne({_id : id}, perfil)
+     }catch(error){
+      throw{message:error.message,status:500}
+     }
+  },
  // conectar: (req, res) => {
   //  let info = req.body
   

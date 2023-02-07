@@ -6,15 +6,25 @@ const perfilService = require('./../services/perfilService')
 
 
 // Rotas de Perfil
-//router.get ('', perfilService.buscarUltimos)
-//router.get('/:id',perfilService.buscarPorId)
+router.get ('', async(req,res)=>{
+    const resposta = await perfilService.buscarUltimos()
+    res.json(resposta)
+})
+router.get('/:id', async(req,res)=>{
+    const resposta = await perfilService.buscarPorId(req.params.id)
+    res.json(resposta)
+}
+)
 router.post('',async(req,res)=> {
     const resposta = await perfilService.cadastrar(req.body)
     res.json(resposta)
 }
 )
     
-//router.put('/:id',verificar, perfilService.editar)
+router.put('/:id',verificar, async(req,res)=>{
+    const resposta = await perfilService.editar(req.params.id,req.body)
+    res.json(resposta)
+} )
 //router.post('/conexao', verificar, perfilService.conectar)
 
 module.exports = router
