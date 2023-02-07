@@ -1,4 +1,4 @@
-
+const notificacaoModel = require('./../models/Notificacao')
 let geradorID = 4 
 let notificacoes = [
     {
@@ -30,64 +30,55 @@ let notificacoes = [
     }
 ]
 module.exports = {
-buscarPorId:(req, res) => {
-  let notificacaoId = req.params.id;
-  let notificacaoEncontrada = notificacoes.find((notificacao)=>notificacao.id==notificacaoId)
-  if(notificacaoEncontrada){
-    res.json(notificacaoEncontrada)
-  }else{
-    res.json({
-    message:"Erro ao buscar notificação : Objeto não econtrado"
-    })
-  }
-},
+//buscarPorId:(req, res) => {
+//  let notificacaoId = req.params.id;
+//  let notificacaoEncontrada = notificacoes.find((notificacao)=>notificacao.id==notificacaoId)
+//  if(notificacaoEncontrada){
+//    res.json(notificacaoEncontrada)
+//  }else{
+//    res.json({
+//    message:"Erro ao buscar notificação : Objeto não econtrado"
+//    })
+//  }
+//},
     
-buscarPorPerfilId: (req, res) => {
-  let perfilID= req.params.id
-  let notificaoEncontrado = notificacoes.filter((notificacao) => notificacao.remetente == perfilID || notificacao.destinatario == perfilID )
-    if(notificaoEncontrado) res.json(notificaoEncontrado)
-    else{
-      res.json({
-      message :'Erro ao buscar notificação: Objeto nã encontrado'
-    })
-    }
+//buscarPorPerfilId: (req, res) => {
+//  let perfilID= req.params.id
+//  let notificaoEncontrado = notificacoes.filter((notificacao) => notificacao.remetente == perfilID || notificacao.destinatario == perfilID )
+//    if(notificaoEncontrado) res.json(notificaoEncontrado)
+//    else{
+//      res.json({
+//      message :'Erro ao buscar notificação: Objeto nã encontrado'
+//    })
+//    }
+//    
+//      
+//    },
     
-      
-    },
-    
-cadastrar: (req, res) => {
-      let novaNotificacao = req.body
-      
-      if(novaNotificacao){
-    
-        novaNotificacao.id = geradorID
-        notificacoes.push(novaNotificacao)
-        geradorID++
-    
-        res.json(novaNotificacao)
-      }else{
-        res.status(400).json({
-          message:"Erro ao cadastra um nova notificação: Dados incompletos"
-        })
+cadastrar:async (notificacao) => {
+      try {
+        return await notificacaoModel.create(notificacao)
+      } catch (error) {
+        throw{message : error.message, status:500}
       }
     },
 
-marcarlida: (req, res) => {
-      let notificacaoID = req.params.id
-         
-      let notificacaoEncontrada = notificacoes.find((notificacao)=>notificacao.id==notificacaoID)
-        if(notificacaoEncontrada){
-          notificacaoEncontrada.lida=true
-          res.json({
-            message:"mensagem marcada como lida"
-          })
-        }else{
-          res.json({
-            message:"Erros ao marcar notificação como lida"
-          })
-        }
-        
-    },
-    
+//marcarlida: (req, res) => {
+//      let notificacaoID = req.params.id
+//         
+//      let notificacaoEncontrada = notificacoes.find((notificacao)=>notificacao.id==notificacaoID)
+//        if(notificacaoEncontrada){
+//          notificacaoEncontrada.lida=true
+//          res.json({
+//            message:"mensagem marcada como lida"
+//          })
+//        }else{
+//          res.json({
+//            message:"Erros ao marcar notificação como lida"
+//          })
+//        }
+//        
+//    },
+//    
     
   }
