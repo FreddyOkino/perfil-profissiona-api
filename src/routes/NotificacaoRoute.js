@@ -6,7 +6,10 @@ const notificacaoService = require('./../services/NotificacaoService')
 
 
 // Rotas de Notificação
-//router.get ('/:id', verificar, notificacaoService.buscarPorId)
+router.get ('/:id', verificar,async(req,res)=>{
+    const resposta = await notificacaoService.buscarPorId(req.params.id)
+    res.json(resposta)
+} )
 //router.get('/perfil/:id', verificar, notificacaoService.buscarPorPerfilId)
 router.post('', verificar, async(req,res)=>{
     const resposta = await notificacaoService.cadastrar(req.body)

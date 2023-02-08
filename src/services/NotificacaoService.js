@@ -30,17 +30,13 @@ let notificacoes = [
     }
 ]
 module.exports = {
-//buscarPorId:(req, res) => {
-//  let notificacaoId = req.params.id;
-//  let notificacaoEncontrada = notificacoes.find((notificacao)=>notificacao.id==notificacaoId)
-//  if(notificacaoEncontrada){
-//    res.json(notificacaoEncontrada)
-//  }else{
-//    res.json({
-//    message:"Erro ao buscar notificação : Objeto não econtrado"
-//    })
-//  }
-//},
+buscarPorId: async(id) => {
+  try{
+    return await notificacaoModel.findOne({_id : id})
+  }catch(error){
+    throw{mensagem:error.message,status:500}
+  }
+},
     
 //buscarPorPerfilId: (req, res) => {
 //  let perfilID= req.params.id
