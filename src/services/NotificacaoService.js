@@ -38,18 +38,13 @@ buscarPorId: async(id) => {
   }
 },
     
-//buscarPorPerfilId: (req, res) => {
-//  let perfilID= req.params.id
-//  let notificaoEncontrado = notificacoes.filter((notificacao) => notificacao.remetente == perfilID || notificacao.destinatario == perfilID )
-//    if(notificaoEncontrado) res.json(notificaoEncontrado)
-//    else{
-//      res.json({
-//      message :'Erro ao buscar notificação: Objeto nã encontrado'
-//    })
-//    }
-//    
-//      
-//    },
+buscarPorPerfilId: async (perfilId) => {
+  try {
+    return await notificacaoModel.find({$or:[{remetente : perfilId},{destinatario : perfilId}]})
+  } catch (error) {
+    throw{mensagem : error.message, status:500}
+  }
+},
     
 cadastrar:async (notificacao) => {
       try {

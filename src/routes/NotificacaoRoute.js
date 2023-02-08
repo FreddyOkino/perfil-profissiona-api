@@ -10,7 +10,10 @@ router.get ('/:id', verificar,async(req,res)=>{
     const resposta = await notificacaoService.buscarPorId(req.params.id)
     res.json(resposta)
 } )
-//router.get('/perfil/:id', verificar, notificacaoService.buscarPorPerfilId)
+router.get('/perfil/:id', verificar,async(req,res)=>{
+    const resposta = await notificacaoService.buscarPorPerfilId(req.params.id)
+    res.json(resposta)
+} )
 router.post('', verificar, async(req,res)=>{
     const resposta = await notificacaoService.cadastrar(req.body)
     res.json(resposta)
