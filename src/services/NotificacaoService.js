@@ -55,26 +55,21 @@ cadastrar:async (notificacao) => {
       try {
         return await notificacaoModel.create(notificacao)
       } catch (error) {
-        throw{message : error.message, status:500}
+        throw{mensagem : error.message, status:500}
       }
     },
 
-//marcarlida: (req, res) => {
-//      let notificacaoID = req.params.id
-//         
-//      let notificacaoEncontrada = notificacoes.find((notificacao)=>notificacao.id==notificacaoID)
-//        if(notificacaoEncontrada){
-//          notificacaoEncontrada.lida=true
-//          res.json({
-//            message:"mensagem marcada como lida"
-//          })
-//        }else{
-//          res.json({
-//            message:"Erros ao marcar notificação como lida"
-//          })
-//        }
-//        
-//    },
-//    
+marcarlida: async(id) => {
+  try {
+    let notificacaoLida = await notificacaoModel.findOne({_id : id})
+    notificacaoLida.lida=true
+    return  await notificacaoModel.updateOne({_id : id}, notificacaoLida)
+    
+    
+  } catch (error) {
+    throw{mensagem : error.message, status:500}
+  }
+    
     
   }
+}

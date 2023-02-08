@@ -15,7 +15,10 @@ router.post('', verificar, async(req,res)=>{
     const resposta = await notificacaoService.cadastrar(req.body)
     res.json(resposta)
 } )
-//router.put('/lida/:id',verificar, notificacaoService.marcarlida)
+router.put('/lida/:id',verificar,async(req, res)=>{
+    const resposta = await notificacaoService.marcarlida(req.params.id)
+    res.json(resposta)
+} )
 
 
 module.exports = router
