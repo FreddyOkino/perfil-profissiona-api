@@ -4,12 +4,13 @@ const notificacaoRoute=require("./routes/NotificacaoRoute")
 const loginRoute = require('./routes/LoginRoute')
 
 
-
+require('dotenv').config()
+const correntEnv= process.env
 const api = express()
 const db =require('mongoose')
 const { default: mongoose } = require("mongoose")
 
-db.connect('mongodb+srv://hightechpro:perfilprofissional1@cluster0.qyehqdn.mongodb.net/perfil-profissional?retryWrites=true&w=majority')
+db.connect(`${correntEnv.DB_PROTOCOL}://${correntEnv.DB_USER}:${correntEnv.DB_PASSWORD}@${correntEnv.DB_HOST}/${correntEnv.DB_NAME}?retryWrites=true&w=majority`)
 
 api.use(express.json())
 api.use('/perfil', perfilRoute)
