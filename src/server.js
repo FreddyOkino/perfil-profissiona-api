@@ -4,13 +4,13 @@ const notificacaoRoute=require("./routes/NotificacaoRoute")
 const loginRoute = require('./routes/LoginRoute')
 
 
-require('dotenv').config()
-const correntEnv= process.env
-const api = express()
-const db =require('mongoose')
-const { default: mongoose } = require("mongoose")
 
-db.connect(`${correntEnv.DB_PROTOCOL}://${correntEnv.DB_USER}:${correntEnv.DB_PASSWORD}@${correntEnv.DB_HOST}/${correntEnv.DB_NAME}?retryWrites=true&w=majority`)
+const api = express()
+const db =require('./db')
+const { default: mongoose } = require("mongoose")
+db.connect()
+
+
 
 api.use(express.json())
 api.use('/perfil', perfilRoute)
