@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const perfilModel = require('./../models/Perfil')
+const tokenUtil = require('./../utils/TokenUtil')
 module.exports={
     autenticar :async (usuario)=>{
         try {
@@ -13,8 +14,9 @@ module.exports={
                        const match = await bcrypt.compare(usuario.senha, perfilEncontrado.usuario.senha)
                        if(match){
                         //devolver o token + o id do perfil + email
+                        const token =tokenUtil.gerarToken(JSON.stringify(perfilEncontrado.usuario))
                         return{
-                            token:"fabricadeprogramadores",
+                            token: token,
                             email: perfilEncontrado.usuario.email,
                             perfil: perfilEncontrado._id
                         }

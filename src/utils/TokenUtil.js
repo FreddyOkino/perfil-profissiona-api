@@ -1,28 +1,17 @@
+require('dotenv').config()
+const jwt = require('jsonwebtoken')
+
 module.exports = {
-    verificarToken: (request)=>{
-        let token = request.headers["token"]
-        if(!token){
-
-            return{
-                autirozado:false,
-                message:"Erro ao acessar login: token não informado"
-            }
-        }else{
-            if(token=="fabricadeprogramador"){
-
-                return{
-                    autirozado:true,
-                    message:""
-                } 
-            }else{
-                return{
-                    autirozado:false,
-                    message:"Token inválido"
-                }
+    gerarToken: (usuario)=>{
+        try {
+            return jwt.sign(usuario, process.env.SECRET)
+        } catch (error) {
+            console.log(`ERROR: ${error.message}`)
+            throw {
+                status:500,
+                message: "Error na geração do token"
             }
         }
-    }
-
 }
 
-
+}
