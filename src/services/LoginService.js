@@ -1,26 +1,48 @@
-
-const dado = require('./../bancodedadosperfis/dados')
+const bcrypt = require('bcrypt')
+const perfilModel = require('./../models/Perfil')
 module.exports={
-    autenticar : (req,res)=>{
-        let usuario = req.body
+    autenticar :async (usuario)=>{
+        try {
+            if(usuario.email){
+                let perfilEncontrado = await perfilModel.findOne({
+                    "usuario.email":usuario.email
+                }).select("+usuario.senha").exec()
+                // console.log(JSON.stringify("PERFIL_ENCONTRADO:" +perfilEncontrado))
 
-        if(usuario.email && usuario.senha){
-            let usuarioEncontrado = dado.perfis.find((perfil)=>perfil.usuario.email== usuario.email && perfil.usuario.senha == usuario.senha)
-                if(usuarioEncontrado){
-                    let resposta={}
-                    resposta.perfil = usuarioEncontrado.id
-                    resposta.token="fabricadeprogramadores"
-                    res.json(resposta)
-                }else{
-                    res.json({
-                        message:'Erro ao efetuar logim: Credenciais inválidas'
-                    })
-                }
-
-        }else{
-            res.status(400).json({
-                message:"Erro ao efetuar login: faltando credenciais"
-            })
+                     if(perfilEncontrado){
+                       const match = await bcrypt.compare(usuario.senha, perfilEncontrado.usuario.senha)
+                       if(match){
+                        //devolver o token + o id do perfil + email
+                        return{
+                            token:"fabricadeprogramadores",
+                            email: perfilEncontrado.usuario.email,
+                            perfil: perfilEncontrado._id
+                        }
+                       }else{
+                        
+                        throw{
+                            status:200,
+                            message:'Erro ao efetuar logim: Credenciais inválidas'
+                        }
+                       }
+                    }else{
+                        throw{
+                            status:200,
+                            message:'Erro ao efetuar logim: Credenciais inválidas'
+                        }
+                    }
     
-    } 
+            }else{
+                throw({
+                    status:400,
+                    message:"Erro ao efetuar login: faltando credenciais"
+                })
+        
+        } 
+            
+        } catch (error) {
+            console.log(`ERRO: ${error.message}`);
+           throw error
+        }
+        
 }}
