@@ -12,6 +12,16 @@ module.exports = {
                 message: "Error na geração do token"
             }
         }
+},
+verificarToken: (token)=>{
+    try {
+        return jwt.verify(token, process.env.SECRET)
+    } catch (error) {
+        console.log(`ERROR: ${error.message}`)
+        throw {
+            status:500,
+            message: "Error ao autenticar: token invalido"
+        }
+    }
 }
-
 }

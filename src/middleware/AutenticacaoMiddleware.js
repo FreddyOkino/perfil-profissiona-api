@@ -6,6 +6,16 @@ module.exports = {
         res.status(401).json({
             message:"Autenticação necessária"
         })
-       }else next
+       }else {
+        try {
+          tokenUtil.verificarToken(token)
+          next              
+        } catch (error) {
+            res.status(error.status).json({
+                message: error.message
+            })
+        }
+       }
     }
+
 }
