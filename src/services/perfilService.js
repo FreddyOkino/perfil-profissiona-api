@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt')
 const perfilModel = require('./../models/Perfil')
 
 module.exports={
@@ -20,6 +21,7 @@ module.exports={
   },
   cadastrar: async (perfil) => {
     try{
+      perfil.usuario.senha = await bcrypt.hash(perfil.usuario.senha, 10)
       let novoPerfil= await perfilModel.create(perfil)
       novoPerfil.usuario.senha = undefined
       return novoPerfil

@@ -7,7 +7,7 @@ module.exports={
             if(usuario.email){
                 let perfilEncontrado = await perfilModel.findOne({
                     "usuario.email":usuario.email
-                }).select("+usuario.senha").exec()
+                }).select("usuario.senha").exec()
                 // console.log(JSON.stringify("PERFIL_ENCONTRADO:" +perfilEncontrado))
 
                      if(perfilEncontrado){
@@ -23,14 +23,14 @@ module.exports={
                        }else{
                         
                         throw{
-                            status:200,
-                            message:'Erro ao efetuar logim: Credenciais inválidas'
+                            status:400,
+                            message:'Erro ao efetuar login: Credenciais inválidas'
                         }
                        }
                     }else{
                         throw{
-                            status:200,
-                            message:'Erro ao efetuar logim: Credenciais inválidas'
+                            status:400,
+                            message:'Erro ao efetuar login: Credenciais inválidas'
                         }
                     }
     

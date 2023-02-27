@@ -1,34 +1,5 @@
 const notificacaoModel = require('./../models/Notificacao')
-let geradorID = 4 
-let notificacoes = [
-    {
-        id:1,
-        tipo: "Contato",
-        titulo: "Notificacao1",
-        descrição: "Esta é a mensagem de número 1",
-        lida: false,
-        remetente: 2,
-        destinatario:3
-    },
-    {
-        id: 2,
-        tipo: "Solicitação de amizade",
-        titulo: "Notificacao2",
-        descrição: "Esta é a mensagem de número 2",
-        lida: false,
-        remetente: 3,
-        destinatario:4
-    },
-    {
-        id:3,
-        tipo: "Contato",
-        titulo: "Notificacao3",
-        descrição: "Esta é a mensagem de número 3",
-        lida: false,
-        remetente: 4,
-        destinatario:5
-    }
-]
+
 module.exports = {
 buscarPorId: async(id) => {
   try{
