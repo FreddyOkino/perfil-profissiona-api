@@ -21,7 +21,7 @@ router.post('',async(req,res)=> {
 }
 )
     
-router.put('/:id',verificar, async(req,res)=>{
+router.put('/:id', async(req,res)=>{
     const resposta = await perfilService.editar(req.params.id,req.body)
     res.json(resposta)
 } )
